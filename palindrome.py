@@ -54,10 +54,13 @@ def answer3(x):
     # print li
     li1, li2 = check(L, li)
     res = []
-    for i in li:
-        if i not in li1 and i not in li2:
+    li1 = tobinary(li1, len(li))
+    li2 = tobinary(li2, len(li))
+    # print li1, li2
+    for i in range(len(li)):
+        if li1[i] == 0 and li2[i] == 0:
             res.append('-')
-        elif i in li1:
+        elif li1[i] == 1 and li2[i] == 1:
             res.append('L')
         else:
             res.append('R')
@@ -70,8 +73,7 @@ def check(n, x):
     tt = [ i + n for i in t.keys()]
     for key, value in t.items():
         eq = n + key
-
-        if eq % 2 == 0 and eq/2 in tt and eq in tt and belong(t[eq/2-n], t[eq-n]):
+        if eq % 2 == 0 and eq/2 in tt and eq in tt and belong(tobinary(t[eq/2-n], l), tobinary(t[eq-n], l)):
             # print eq/2, t[eq/2-n], t[eq-n]
             return t[eq/2-n], t[eq-n]
 
@@ -88,7 +90,7 @@ def comb(x):
         li = tobinary(i, l)
         for j in range(l):
             li[j] = li[j] * x[j]
-        res[sum(li)] = li
+        res[sum(li)] = i
     return res
 
 def tobinary(n, l):
@@ -102,7 +104,7 @@ def tobinary(n, l):
         res = [0] + res
     return res
 
-# print answer3(19845021)
+print answer3(14)
 
 def answer4(x):
     m = 0
@@ -171,5 +173,24 @@ def answer4(x):
             print L, R
             break
 
-print answer4(1003)
+# print answer4(1003)
 
+def answer5(x):
+    li = [ 3 ** i for i in range(20)]
+    R = 0
+    L = x
+    res = []
+    for i in range(20):
+        if L/(3 ** i) % 3 == 1:
+            R += 3 ** i
+            res.append(["R"])
+        elif L/(3 ** i) % 3 == 2:
+            L += 3 ** i
+            res.append(["L"])
+        elif L/(3 ** i) % 3 == 0:
+            res.append(["-"])
+        if L == R:
+            break
+    print res
+
+answer5(28)
