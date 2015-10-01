@@ -104,7 +104,7 @@ def tobinary(n, l):
         res = [0] + res
     return res
 
-print answer3(14)
+# print answer3(14)
 
 def answer4(x):
     m = 0
@@ -193,4 +193,194 @@ def answer5(x):
             break
     print res
 
-answer5(28)
+# answer5(28)
+
+def answer6(n, x):
+    l = len(x)
+
+    m = []
+    for i in range(l):
+        m.append([0] * l)
+    m[-1][-1] = n
+    for i in range(l - 2, -1, -1):
+        m[i][-1] = m[i + 1][-1] - x[i + 1][-1]
+        m[-1][i] = m[-1][i + 1] - x[-1][i + 1]
+    print m
+    for i in range(l - 2, -1, -1):
+        for j in range(l - 2, -1, -1):
+            if m[i + 1][j] - x[i + 1][j] < 0 and m[i][j + 1] - x[i][j + 1] < 0:
+                m[i][j] = -1
+            elif m[i + 1][j] - x[i + 1][j] < 0:
+                m[i][j] = m[i][j + 1] - x[i][j + 1]
+            elif m[i][j + 1] - x[i][j + 1] < 0:
+                m[i][j] = m[i + 1][j] - x[i + 1][j]
+            else:
+                m[i][j] = min(m[i + 1][j] - x[i + 1][j], m[i][j + 1] - x[i][j + 1])
+    return m[0][0]
+
+
+
+
+class cell():
+    def __init__(self, value, origin, row, column, direction):
+        self.value = value
+        self.origin = origin
+        self.row = row
+        self.column = column
+        self.direction = direction
+
+    def __str__(self):
+        return "%d %d %d %d %s " % (self.value, self.origin, self.row, self.column, self.direction)
+
+    def __lt__(self, other):
+        return self.value < other.value
+
+    def __le__(self, other):
+        return self.value <= other.value
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+    def __ne__(self, other):
+        return self.value != other.value
+
+    def __gt__(self, other):
+        return self.value > other.value
+
+    def __ge__(self, other):
+        return self.value >= other.value
+from operator import attrgetter
+def answer7(n, x):
+    l = len(x)
+    m = []
+    for i in range(l):
+        m.append([0] * l)
+    m[0][0] = cell(0, 0, 0, 0, 'None')
+    for i in range(1, l, 1):
+        m[0][i] = cell(m[0][i-1].value + x[0][i], x[0][i], 0, i, 'L' )
+        m[i][0] = cell(m[i-1][0].value + x[i][0], x[i][0], i, 0, 'U')
+
+    for i in range(1, l, 1):
+        for j in range(1, l, 1):
+            if m[i-1][j] > m[i][j-1]:
+                m[i][j] = cell(m[i-1][j].value + x[i][j], x[i][j], i, j, 'U')
+            else:
+                m[i][j] = cell(m[i][j-1].value + x[i][j], x[i][j], i, j, 'L')
+    if m[-1][-1].value <= n:
+        return n - m[-1][-1].value
+    # else:
+
+    for i in range(l):
+        print m[-1][i]
+
+
+
+grid = [[0, 2, 5], [1, 1, 3], [2, 1, 1]]
+grid2 = [[0, 2], [1, 3]]
+n = 11
+
+# print answer6(4, grid)
+# print answer6(5, grid)
+
+def smallest_remainder(total, grid):
+    """Return the smallest remainder from total after subtracting the
+    numbers on a path from top left to bottom right of grid, or -1 if
+    there is no path whose sum is less than or equal to total.
+
+    >>> smallest_remainder(7, [[0, 2, 5], [1, 1, 3], [2, 1, 1]])
+    0
+    >>> smallest_remainder(12, [[0, 2, 5], [1, 1, 3], [2, 1, 1]])
+    1
+
+    """
+    # @memoized
+    def r(t, i, j):
+        # Smallest remainder from t after subtracting the numbers on a path
+        # from top left to (i, j) in grid, or total + 1 if there is no
+        # path whose sum is less than or equal to t.
+        t -= grid[i][j]
+        if i < 0 or j < 0 or t < 0:
+            return total + 1
+        elif i == j == 0:
+            return t
+        else:
+            return min(r(t, i - 1, j), r(t, i, j - 1))
+
+    remainder = r(total, len(grid) - 1, len(grid) - 1)
+    return remainder if remainder <= total else -1
+
+# print smallest_remainder(8, grid)
+
+def answer8(food, grid):
+    N = len(grid)
+    ans_grid = [[set() for i in range(N)] for j in range(N)]
+    ans_grid[0][0] |= {grid[0][0]}
+    for (row, row_val) in enumerate(grid):
+        for (col, val) in enumerate(row_val):
+            if row != 0:
+                ans_grid[row][col] |= {val + x for x in ans_grid[row-1][col]
+                                       if (val + x) <= food}
+            if col != 0:
+                ans_grid[row][col] |= {val + x for x in ans_grid[row][col-1]
+                                       if (val + x) <= food}
+    all_ans = sorted(ans_grid[N-1][N-1], reverse=True)
+    for el in all_ans:
+        if el <= food:
+            return food-el
+    return -1
+
+# when_it_rains_it_pours
+def answer9(heights):  # time limit exceeded
+    # your code here
+    count = 0
+    while(1):
+        flag = 0
+        end = 0
+        start = 0
+        for i in range(len(heights)):
+            heights[i] = max(heights[i]-1, 0)
+            if heights[i] > 0 and flag == 0:
+                start = i
+                flag = 1
+        print heights
+        for i in range(len(heights) - 1, -1, -1):
+            if heights[i] > 0:
+                end = i
+                break
+        print end
+        if start == end:
+            break
+        count += heights[start:end].count(0)
+    return count
+
+
+def answer10(heights):
+    if len(heights) <= 2:
+        return 0
+    highest = max(heights)
+    h_index = heights.index(highest)
+    left = heights[0:h_index]
+    right = heights[h_index+1:]
+    # right.reverse()
+    return recurr(left, "L") + recurr(right, "R")
+
+def recurr(l, side):
+    if len(l) <= 1:
+        return 0
+    highest = max(l)
+    h_index = l.index(highest)
+
+    count = 0
+    if side == "L":
+        for i in range(h_index+1, len(l), 1):
+            count += highest - l[i]
+        count += recurr(l[0:h_index], "L")
+    elif side == "R":
+        for i in range(0, h_index, 1):
+            count += highest - l[i]
+        count += recurr(l[h_index+1:], "R")
+    return count
+
+
+
+print answer10( [9,4,5,4,99])
