@@ -1,0 +1,103 @@
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+    def __str__(self):
+        return str(self.val)
+
+
+def generateBST(start, end):
+    if start > end:
+        return None
+    mid = (start + end) / 2
+    root = TreeNode(mid)
+    root.left = generateBST(start, mid - 1)
+    root.right = generateBST(mid + 1, end)
+    return root
+
+
+bst = generateBST(1, 10)
+
+print bst, bst.left, bst.right
+
+
+def pre_order_recur(root):
+    print root.val
+    if root.left is not None:
+        pre_order_recur(root.left)
+    if root.right is not None:
+        pre_order_recur(root.right)
+
+pre_order_recur(bst)
+
+def pre_order(root): # actually DFS
+    node = root
+    stack = [root]
+    while len(stack) > 0:
+        node = stack.pop()
+        print node.val
+        if node.right:
+            stack.append(node.right)
+        if node.left:
+            stack.append(node.left)
+
+pre_order(bst)
+
+
+def in_order(root):
+    node = root
+    stack = []
+    done = 0
+    while not done:
+        if node is not None:
+            stack.append(node)
+            node = node.left
+        else:
+            if(len(stack) > 0):
+                node = stack.pop()
+                yield node.val
+                node = node.right
+            else:
+                done = 1
+
+def in_order_recur(root, res):
+    if root is None:
+        return
+    in_order_recur(root.left, res)
+    print root.val
+    res.append(root.val)
+    in_order_recur(root.right, res)
+
+
+def post_order(root):
+    node = root
+    stack = []
+    # done = 0
+    # while not done:
+    #     if node is not None:
+    #         stack.append(node)
+    #         if node.left:
+    #             node = node.left
+    #         else:
+    #             node = node.right
+    #     else:
+    #         if(len(stack) > 0):
+    #             node = stack.pop()
+    #             print node.val
+    #             node = node.right
+    #         else:
+    #             done = 1
+
+#pre_order(bst)
+io = in_order(bst)
+print io
+
+for num in io:
+    print num
+
+print 'in order recur'
+r = []
+in_order_recur(bst, r)
+print r
