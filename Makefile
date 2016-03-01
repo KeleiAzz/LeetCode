@@ -15,9 +15,7 @@ status: ready
 	@- git status
 
 ready:
-	@git config --global credential.helper cache
-	@git config credential.helper 'cache --timeout=3600'
-
+	@git config --global credential.helper osxkeychain
 kgong:  # <== change to your name
 	@git config --global user.name "Kelei Gong"
 	@git config --global user.email kgong@ncsu.edu

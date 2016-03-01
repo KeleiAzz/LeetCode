@@ -5,6 +5,7 @@ def nthUglyNumber(n):
     for k in xrange(n):
         x = min(v2, v3, v5)
         ugly[k] = x
+        print k, x, v2, v3, v5
         if x == v2:
             i2 += 1
             v2 = ugly[i2] * 2
