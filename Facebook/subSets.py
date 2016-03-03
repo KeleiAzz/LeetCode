@@ -13,4 +13,7 @@ class Solution(object):
         for i in range(start,len(nums)):
             self.dfs(nums, i+1, path+[nums[i]],res)
 
-        
+
+
+s = Solution()
+print s.subsets(range(4))
