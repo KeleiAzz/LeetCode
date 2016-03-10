@@ -45,7 +45,7 @@ class Solution(object):
         nrow, ncol, dp = len(matrix), len(matrix[0]), [[1 if c == '1' else 0 for c in row] for row in matrix]
         for i in range(nrow):
             for j in range(ncol):
-                dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+                dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) # actually we only need two rows here.
         print dp
 
 s = Solution()

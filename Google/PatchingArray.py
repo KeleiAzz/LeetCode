@@ -13,9 +13,6 @@ def minPatches(nums, n):
     sum = 0
     ans = 0
     index = 0
-    if len(nums) > 0 and nums[0] == 1:
-        sum += 1
-        index = 0
 
     while sum < n:
         while index < len(nums) and nums[index] <= sum:
