@@ -11,9 +11,8 @@ class Solution(object):
         self.dfs(candidates, [], res, target)
         return res
 
-
-    def dfs(self,candidates,path,res,target):
-        if target<candidates[0]:
+    def dfs(self, candidates, path, res, target):
+        if target < candidates[0]:
             return
         # from large values to small values
         for i in range(len(candidates)):
@@ -23,5 +22,5 @@ class Solution(object):
             # if smaller, try it and keep searching for candidates that are smaller
             # candidates[:i+1] to avoid duplicates
             elif candidates[i]<target:
-                self.dfs(candidates[i:],path+[candidates[i]],res,target-candidates[i])
+                self.dfs(candidates[i:], path+[candidates[i]], res, target-candidates[i])
             # if larger, do nothing

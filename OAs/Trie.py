@@ -48,8 +48,6 @@ words = ['bana', 'nab', 'cooc', 'ooc', 'abedd', 'eba']
 root = generateTrie(words)
 
 def is_palindrome(a):
-    if len(a) == 0:
-        return True
     return a == a[::-1]
 
 

@@ -7,24 +7,22 @@ class Solution(object):
         """
         if not nums:
             return []
-        win = nums[:k]
-        # stack = [max(win)]
-        stack = nums[:k]
-        stack.sort(reverse=True)
-        res = [stack[0]]
-        for i in range(len(nums) - k):
-            print stack
-            head = nums[i]
-            tail = nums[i+k]
-            while stack and head == stack[0]:
-                stack.pop(0)
-            # stack.append(head)
-            while stack and tail > stack[-1]:
-                stack.pop()
-            stack.append(tail)
-            res.append(stack[0])
-        return res
+        result = []
+        q = []
+        for i in range(len(nums)):
+            while len(q) and nums[q[-1]] < nums[i]:
+                q.pop()
+            q.append(i)
+            # print q
+            if i < k - 1:
+                continue
 
+            while len(q) and q[0] <= i - k:
+                q.pop(0)
+
+            result.append(nums[q[0]])
+
+        return result
 s = Solution()
 
 print s.maxSlidingWindow([9,10,9,-7,-4,-8,2,-6], 5)
