@@ -37,6 +37,6 @@ def combine(indeies):
     # print res
     return res
 
-s = 'hearthstdone'
-d = ['heart', 'stone']
+s = 'applend'
+d = ['app', 'len', 'apple', 'end']
 print removeCharacters(s, d)

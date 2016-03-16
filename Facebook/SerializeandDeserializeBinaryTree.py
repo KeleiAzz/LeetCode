@@ -35,20 +35,24 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
-        if root is None:
+        if not root:
             return []
-        res = []
-        node = root
         queue = [root]
-        while len(queue) > 0:
-            node = queue.pop(0)
-            if node:
-                res.append(node.val)
-                queue.append(node.left)
-                queue.append(node.right)
-            else:
-                res.extend([None])
-        return res
+        l = [map(queue.append, (node.left, node.right)) for node in queue if node]
+        return ':'.join(map(lambda n: n and str(n.val) or 'x', queue))
+
+        # res = []
+        #
+        # queue = [root]
+        # while len(queue) > 0:
+        #     node = queue.pop(0)
+        #     if node:
+        #         res.append(str(node.val))
+        #         queue.append(node.left)
+        #         queue.append(node.right)
+        #     else:
+        #         res.append('x')
+        # return ':'.join(res)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -58,24 +62,23 @@ class Codec:
         """
         if len(data) == 0:
             return None
-        root = TreeNode(data.pop(0))
+        data = data.split(':')
+        root = TreeNode(data[0])
         queue = [root]
         count = 2
-        while len(data) > 0:
+        for i in range(1, len(data), 2):
             node = queue.pop(0)
-            l = data.pop(0)
-            if l is not None:
+            l = data[i]
+            if l != 'x':
                 left = TreeNode(l)
                 node.left = left
                 queue.append(left)
-            r = data.pop(0)
-            if r is not None:
+            r = data[i+1]
+            if r != 'x':
                 right = TreeNode(r)
                 node.right = right
                 queue.append(right)
         return root
-
-
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
