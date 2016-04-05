@@ -1,5 +1,6 @@
 import os, sys, argparse
 
+
 def tail(path, lines_to_print=5):
     if lines_to_print < 1:
         return
@@ -27,4 +28,5 @@ if __name__ == '__main__':
     parser.add_argument('path', help='The path to the file to tail')
     parser.add_argument('-n', help='Print the last n lines of the file', type=int, default=5)
     args = parser.parse_args()
+    print args
     tail(args.path, args.n)

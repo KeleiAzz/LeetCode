@@ -40,7 +40,7 @@ sortColors2(nums)
 
 def sortKColors(nums, k):
     '''
-    if there are k colors, similar approach.
+    if there are k colors, similar approach. idx[i] represents how many numbers are less than i
     :param nums:
     :param k:
     :return:

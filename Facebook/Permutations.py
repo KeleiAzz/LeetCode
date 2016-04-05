@@ -8,8 +8,8 @@ class Solution(object):
             return []
         if len(nums) == 1:
             return [nums]
-        if len(nums) == 2:
-            return [[nums[0], nums[1]], [nums[1], nums[0]]]
+        # if len(nums) == 2:
+        #     return [[nums[0], nums[1]], [nums[1], nums[0]]]
 
         res = []
         for i in range(len(nums)):

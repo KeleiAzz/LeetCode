@@ -78,3 +78,31 @@ class Solution(object):
         dfs(root, p, q, 0)
         return self.LCA
 
+
+class TreeNode(object):
+    def __init__(self, value):
+        self.val = value
+        self.left, self.right = None, None
+
+
+class Solution2(object):
+    '''
+    does this work?
+    '''
+    def LCA(self, root):
+        result, _ = self.helper(root)
+        return result
+
+    def helper(self, root):
+        if not root:
+            return root, 0
+
+        left, llevel = self.helper(root.left)
+        right, rlevel = self.helper(root.right)
+
+        if llevel == rlevel:
+            return root, llevel + 1
+        elif llevel > rlevel:
+            return left, llevel + 1
+        else:
+            return right, rlevel + 1

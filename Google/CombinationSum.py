@@ -17,10 +17,10 @@ class Solution(object):
         # from large values to small values
         for i in range(len(candidates)):
             # if equal, it is one solution
-            if candidates[i]==target:
-                res.insert(0,path+[candidates[i]])
+            if candidates[i] == target:
+                res.insert(0, path+[candidates[i]])
             # if smaller, try it and keep searching for candidates that are smaller
             # candidates[:i+1] to avoid duplicates
-            elif candidates[i]<target:
+            elif candidates[i] < target:
                 self.dfs(candidates[i:], path+[candidates[i]], res, target-candidates[i])
             # if larger, do nothing

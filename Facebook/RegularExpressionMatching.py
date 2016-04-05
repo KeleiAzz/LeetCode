@@ -1,3 +1,4 @@
+# TODO need to understand this approach
 def isMatch( s, p):
     lenS, lenP = len(s), len(p)
     dp = [[False] * (lenP + 1) for i in range(lenS + 1)]

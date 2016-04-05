@@ -1,6 +1,5 @@
 # TODO: implement max heap and min heap
 
-
 def heapify(nums):
     i = len(nums)/2
     while i >= 0:

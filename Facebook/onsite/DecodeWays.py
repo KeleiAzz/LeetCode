@@ -7,12 +7,12 @@ class Solution(object):
         '''
         if len(s) == 0 or int(s[0]) == 0:
             return 0
-        count = [1 for i in xrange(len(s)+1)]
+        count = [1 for _ in xrange(len(s)+1)]
         for i in xrange(2, len(s)+1):
             count[i] = count[i-1]
             if int(s[i-2]) > 0 and int(s[i-2]+s[i-1]) <= 26:
-                count[i] = count[i-2] + (count[i-1] if int(s[i-1]) > 0 else 0) # if curr char is zero, don't add prev count
-            if int(s[i-1]) == 0 and not (1 <= int(s[i-2]+s[i-1]) <= 26): # if encounter invalid sequence, terminate early
+                count[i] = count[i-2] + (count[i-1] if int(s[i-1]) > 0 else 0)  # if curr char is zero, don't add prev count
+            if int(s[i-1]) == 0 and not (1 <= int(s[i-2]+s[i-1]) <= 26):  # if encounter invalid sequence, terminate early
                 return 0
         return count[len(s)]
 
